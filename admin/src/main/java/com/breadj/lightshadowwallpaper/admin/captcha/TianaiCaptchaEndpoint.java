@@ -1,4 +1,4 @@
-package com.your.packages.admin.captcha;
+package com.breadj.lightshadowwallpaper.admin.captcha;
 
 import cloud.tianai.captcha.common.constant.CaptchaTypeConstant;
 import cloud.tianai.captcha.spring.application.ImageCaptchaApplication;

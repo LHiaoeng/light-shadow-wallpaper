@@ -1,4 +1,4 @@
-package com.your.packages.admin;
+package com.breadj.lightshadowwallpaper.admin;
 
 import org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure.OAuth2AuthorizationServerAutoConfiguration;
 import org.ballcat.springsecurity.oauth2.server.resource.OAuth2ResourceServerAutoConfiguration;

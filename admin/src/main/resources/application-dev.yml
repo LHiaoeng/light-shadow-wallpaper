@@ -5,7 +5,7 @@ spring:
     password: '123456'
   redis:
     host: ballcat-redis
-    password: ''
+    password: '123456'
     port: 6379
 
 ballcat:

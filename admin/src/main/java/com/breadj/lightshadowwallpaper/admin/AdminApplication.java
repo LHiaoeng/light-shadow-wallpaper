@@ -1,4 +1,4 @@
-package com.your.packages.admin;
+package com.breadj.lightshadowwallpaper.admin;
 
 import org.ballcat.springsecurity.oauth2.server.authorization.annotation.EnableOauth2AuthorizationServer;
 import org.ballcat.springsecurity.oauth2.server.resource.annotation.EnableOauth2ResourceServer;
@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @EnableOauth2AuthorizationServer
 @EnableOauth2ResourceServer
-@MapperScan({ "com.your.packages.**.mapper" })
+@MapperScan({ "com.breadj.lightshadowwallpaper.**.mapper" })
 @SpringBootApplication
 public class AdminApplication {
 

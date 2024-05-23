@@ -9,8 +9,8 @@
 		<relativePath/>
 	</parent>
 
-    <groupId>com.your.packages</groupId>
-    <artifactId>ballcat-boot</artifactId>
+    <groupId>com.breadj</groupId>
+    <artifactId>light-shadow-wallpaper</artifactId>
     <version>${revision}</version>
 	<packaging>pom</packaging>
 
