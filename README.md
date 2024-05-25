@@ -35,4 +35,10 @@ mvn spring-javaformat:apply
         <artifactId>jaxb-runtime</artifactId>
     </dependency>
 ```
+### 启动项目
+建议启动前先执行一次 mvn clean package 命令，保证依赖下载和代码编译没有问题
+
+```shell
+mvn clean package
+```
 
