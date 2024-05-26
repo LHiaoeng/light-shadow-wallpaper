@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
  * 壁纸
  *
@@ -32,66 +31,63 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/wallpaper/wallpaper" )
+@RequestMapping("/wallpaper/wallpaper")
 @Tag(name = "壁纸管理")
 public class WallpaperController {
 
-    private final WallpaperService wallpaperService;
+	private final WallpaperService wallpaperService;
 
-    /**
-     * 分页查询
-     * @param pageParam 分页参数
-     * @param wallpaperQO 壁纸查询对象
-     * @return R 通用返回体
-     */
-    @Operation(summary = "分页查询")
-    @GetMapping("/page" )
-    @PreAuthorize("@per.hasPermission('wallpaper:wallpaper:read')" )
-    public R<PageResult<WallpaperPageVO>> getWallpaperPage(
-            PageParam pageParam, WallpaperQO wallpaperQO) {
-        return R.ok(wallpaperService.queryPage(pageParam, wallpaperQO));
-    }
+	/**
+	 * 分页查询
+	 * @param pageParam 分页参数
+	 * @param wallpaperQO 壁纸查询对象
+	 * @return R 通用返回体
+	 */
+	@Operation(summary = "分页查询")
+	@GetMapping("/page")
+	@PreAuthorize("@per.hasPermission('wallpaper:wallpaper:read')")
+	public R<PageResult<WallpaperPageVO>> getWallpaperPage(PageParam pageParam, WallpaperQO wallpaperQO) {
+		return R.ok(wallpaperService.queryPage(pageParam, wallpaperQO));
+	}
 
-    /**
-     * 新增壁纸
-     * @param wallpaper 壁纸
-     * @return R 通用返回体
-     */
-    @Operation(summary = "新增壁纸")
-    @CreateOperationLogging(msg = "新增壁纸" )
-    @PostMapping
-    @PreAuthorize("@per.hasPermission('wallpaper:wallpaper:add')" )
-    public R<Void> save(@RequestBody Wallpaper wallpaper) {
-        return wallpaperService.save(wallpaper) ?
-                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增壁纸失败");
-    }
+	/**
+	 * 新增壁纸
+	 * @param wallpaper 壁纸
+	 * @return R 通用返回体
+	 */
+	@Operation(summary = "新增壁纸")
+	@CreateOperationLogging(msg = "新增壁纸")
+	@PostMapping
+	@PreAuthorize("@per.hasPermission('wallpaper:wallpaper:add')")
+	public R<Void> save(@RequestBody Wallpaper wallpaper) {
+		return wallpaperService.save(wallpaper) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增壁纸失败");
+	}
 
-    /**
-     * 修改壁纸
-     * @param wallpaper 壁纸
-     * @return R 通用返回体
-     */
-    @Operation(summary = "修改壁纸")
-    @UpdateOperationLogging(msg = "修改壁纸" )
-    @PutMapping
-    @PreAuthorize("@per.hasPermission('wallpaper:wallpaper:edit')" )
-    public R<Void> updateById(@RequestBody Wallpaper wallpaper) {
-        return wallpaperService.updateById(wallpaper) ?
-                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改壁纸失败");
-    }
+	/**
+	 * 修改壁纸
+	 * @param wallpaper 壁纸
+	 * @return R 通用返回体
+	 */
+	@Operation(summary = "修改壁纸")
+	@UpdateOperationLogging(msg = "修改壁纸")
+	@PutMapping
+	@PreAuthorize("@per.hasPermission('wallpaper:wallpaper:edit')")
+	public R<Void> updateById(@RequestBody Wallpaper wallpaper) {
+		return wallpaperService.updateById(wallpaper) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改壁纸失败");
+	}
 
-    /**
-     * 通过id删除壁纸
-     * @param id id
-     * @return R 通用返回体
-     */
-    @Operation(summary = "通过id删除壁纸")
-    @DeleteOperationLogging(msg = "通过id删除壁纸" )
-    @DeleteMapping("/{id}" )
-    @PreAuthorize("@per.hasPermission('wallpaper:wallpaper:del')" )
-    public R<Void> removeById(@PathVariable("id") Integer id) {
-        return wallpaperService.removeById(id) ?
-                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除壁纸失败");
-    }
+	/**
+	 * 通过id删除壁纸
+	 * @param id id
+	 * @return R 通用返回体
+	 */
+	@Operation(summary = "通过id删除壁纸")
+	@DeleteOperationLogging(msg = "通过id删除壁纸")
+	@DeleteMapping("/{id}")
+	@PreAuthorize("@per.hasPermission('wallpaper:wallpaper:del')")
+	public R<Void> removeById(@PathVariable("id") Integer id) {
+		return wallpaperService.removeById(id) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除壁纸失败");
+	}
 
 }

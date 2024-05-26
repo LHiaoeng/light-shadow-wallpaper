@@ -14,12 +14,13 @@ import com.hccake.extend.mybatis.plus.service.ExtendService;
  */
 public interface WallpaperService extends ExtendService<Wallpaper> {
 
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param pageParam 分页参数
-    * @param qo 查询参数对象
-    * @return PageResult&lt;WallpaperPageVO&gt; 分页数据
-    */
-    PageResult<WallpaperPageVO> queryPage(PageParam pageParam, WallpaperQO qo);
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param pageParam 分页参数
+	 * @param qo 查询参数对象
+	 * @return PageResult&lt;WallpaperPageVO&gt; 分页数据
+	 */
+	PageResult<WallpaperPageVO> queryPage(PageParam pageParam, WallpaperQO qo);
 
+	PageResult<WallpaperPageVO> queryRestPage(PageParam pageParam, WallpaperQO qo);
 }

@@ -3,47 +3,62 @@
 <mapper namespace="com.breadj.lightshadowwallpaper.admin.wallpaper.mapper.WallpaperMapper">
 
 	<resultMap id="wallpaperMap" type="com.breadj.lightshadowwallpaper.admin.wallpaper.model.entity.Wallpaper">
-  		<id property="id" column="id"/>
-    		<result property="type" column="type"/>
-    		<result property="title" column="title"/>
-    		<result property="titleLink" column="title_link"/>
-    		<result property="url" column="url"/>
-    		<result property="urlBase" column="url_base"/>
-    		<result property="copyright" column="copyright"/>
-    		<result property="copyrightLink" column="copyright_link"/>
-    		<result property="description" column="description"/>
-    		<result property="source" column="source"/>
-    		<result property="launchTime" column="launch_time"/>
-    		<result property="createTime" column="create_time"/>
-      </resultMap>
+		<id property="id" column="id"/>
+		<result property="type" column="type"/>
+		<result property="title" column="title"/>
+		<result property="titleLink" column="title_link"/>
+		<result property="url" column="url"/>
+		<result property="urlBase" column="url_base"/>
+		<result property="poster" column="poster"/>
+		<result property="copyright" column="copyright"/>
+		<result property="copyrightLink" column="copyright_link"/>
+		<result property="description" column="description"/>
+		<result property="source" column="source"/>
+		<result property="status" column="status"/>
+		<result property="launchTime" column="launch_time"/>
+		<result property="createTime" column="create_time"/>
+		<result property="createBy" column="create_by"/>
+		<result property="updateBy" column="update_by"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
 
 	<sql id="Base_Column_List">
-		id,        
+		id,
 		type,        
 		title,        
 		title_link,        
 		url,        
-		url_base,        
+		url_base,
+		poster,
 		copyright,        
 		copyright_link,        
 		description,        
 		source,        
+		status,
 		launch_time,
-		create_time
+		create_time,
+		create_by,
+		update_by,
+		update_time
 	</sql>
 
 	<sql id="Base_Alias_Column_List">
-		w.id,        
+		w.id,
 		w.type,        
 		w.title,        
 		w.title_link,        
 		w.url,        
 		w.url_base,        
-		w.copyright,        
+		w.poster,
+		w.copyright,
 		w.copyright_link,        
 		w.description,        
 		w.source,        
+		w.status,
 		w.launch_time,
-		w.create_time
+		w.create_time,
+		w.create_by,
+		w.update_by,
+		w.update_time
 	</sql>
 </mapper>

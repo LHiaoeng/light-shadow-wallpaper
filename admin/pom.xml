@@ -71,12 +71,6 @@
 			<artifactId>ballcat-admin-i18n</artifactId>
 		</dependency>
 
-		<!-- websocket 相关 -->
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-admin-websocket</artifactId>
-		</dependency>
-
 		<!-- 分布式定时任务 -->
 		<dependency>
 			<groupId>com.hccake</groupId>
@@ -85,14 +79,14 @@
 
 		<!-- API, java.xml.bind module -->
 		<!-- add it when jdk11 -->
-<!--		<dependency>-->
-<!--			<groupId>jakarta.xml.bind</groupId>-->
-<!--			<artifactId>jakarta.xml.bind-api</artifactId>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.glassfish.jaxb</groupId>-->
-<!--			<artifactId>jaxb-runtime</artifactId>-->
-<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>jakarta.xml.bind</groupId>-->
+		<!--			<artifactId>jakarta.xml.bind-api</artifactId>-->
+		<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>org.glassfish.jaxb</groupId>-->
+		<!--			<artifactId>jaxb-runtime</artifactId>-->
+		<!--		</dependency>-->
 	</dependencies>
 
 	<build>
