@@ -90,6 +90,13 @@ ballcat:
     security:
       - oauth2: [ ]
       - apiKey: [ ]
+  xxl:
+    job:
+      access-token: default_token
+      admin:
+        addresses: http://ballcat-job:8888/xxl-job-admin
+      executor:
+        appname: xxl-job-executor-breadj
 
 springdoc:
   # 开启 oauth2 端点显示
@@ -101,6 +108,7 @@ springdoc:
     display-request-duration: true
     disable-swagger-default-url: true
     persist-authorization: true
+
 
 
 

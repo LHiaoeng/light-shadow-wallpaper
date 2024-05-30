@@ -1,6 +1,5 @@
 package com.breadj.lightshadowwallpaper.admin.wallpaper.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.mapper.WallpaperMapper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.service.WallpaperService;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.entity.Wallpaper;
@@ -10,7 +9,6 @@ import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.system.mapper.SysUserMapper;
 import com.hccake.ballcat.system.model.entity.SysUser;
-import com.hccake.ballcat.system.service.SysUserService;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
