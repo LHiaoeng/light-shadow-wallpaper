@@ -77,6 +77,12 @@
 			<artifactId>ballcat-spring-boot-starter-job</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>2.0.50</version>
+		</dependency>
+
 		<!-- API, java.xml.bind module -->
 		<!-- add it when jdk11 -->
 		<!--		<dependency>-->
@@ -97,5 +103,12 @@
 			</plugin>
 		</plugins>
 	</build>
+	<repositories>
+		<repository>
+			<id>maven_central</id>
+			<name>Maven Central</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+		</repository>
+	</repositories>
 
 </project>

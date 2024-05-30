@@ -20,6 +20,7 @@
 		<result property="createBy" column="create_by"/>
 		<result property="updateBy" column="update_by"/>
 		<result property="updateTime" column="update_time"/>
+		<result property="bingCountry" column="bing_country"/>
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -39,7 +40,8 @@
 		create_time,
 		create_by,
 		update_by,
-		update_time
+		update_time,
+		bing_country
 	</sql>
 
 	<sql id="Base_Alias_Column_List">
@@ -59,6 +61,7 @@
 		w.create_time,
 		w.create_by,
 		w.update_by,
-		w.update_time
+		w.update_time,
+		w.bing_country
 	</sql>
 </mapper>

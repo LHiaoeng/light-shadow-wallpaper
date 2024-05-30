@@ -89,6 +89,12 @@ public class Wallpaper {
 	private Integer source;
 
 	/**
+	 * 必应壁纸所属国家
+	 */
+	@Schema(title = "必应壁纸所属国家")
+	private String bingCountry;
+
+	/**
 	 * 上架时间
 	 */
 	@Schema(title = "上架时间")

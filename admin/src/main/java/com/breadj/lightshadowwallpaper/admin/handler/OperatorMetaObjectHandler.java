@@ -46,6 +46,10 @@ public class OperatorMetaObjectHandler implements MetaObjectHandler {
 
 	private Long getCurrentUserId() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null) {
+			return null;
+		}
+
 		User currentUser = (User) authentication.getPrincipal();
 
 		return currentUser.getUserId();
