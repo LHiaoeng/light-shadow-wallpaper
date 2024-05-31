@@ -28,7 +28,9 @@ public interface WallpaperMapper extends ExtendMapper<Wallpaper> {
 	default PageResult<WallpaperPageVO> queryPage(PageParam pageParam, WallpaperQO qo) {
 		IPage<Wallpaper> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<Wallpaper> wrapper = WrappersX.lambdaQueryX(Wallpaper.class);
-		wrapper.likeIfPresent(Wallpaper::getTitle, qo.getTitle())
+
+		wrapper.orderByDesc(Wallpaper::getId)
+			.likeIfPresent(Wallpaper::getTitle, qo.getTitle())
 			.eqIfPresent(Wallpaper::getSource, qo.getSource())
 			.eqIfPresent(Wallpaper::getStatus, qo.getStatus())
 			.eqIfPresent(Wallpaper::getType, qo.getType());
@@ -43,12 +45,12 @@ public interface WallpaperMapper extends ExtendMapper<Wallpaper> {
 		IPage<Wallpaper> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<Wallpaper> wrapper = WrappersX.lambdaQueryX(Wallpaper.class);
 		wrapper.eq(Wallpaper::getStatus, 0)
-				.likeIfPresent(Wallpaper::getTitle, qo.getTitle())
-				.eqIfPresent(Wallpaper::getSource, qo.getSource())
-				.eqIfPresent(Wallpaper::getBingCountry, qo.getBingCountry())
-				.leIfPresent(Wallpaper::getLaunchTime, qo.getLaunchTimeEnd())
-				.geIfPresent(Wallpaper::getLaunchTime, qo.getLaunchTimeStart())
-				.eqIfPresent(Wallpaper::getType, qo.getType());
+			.likeIfPresent(Wallpaper::getTitle, qo.getTitle())
+			.eqIfPresent(Wallpaper::getSource, qo.getSource())
+			.eqIfPresent(Wallpaper::getBingCountry, qo.getBingCountry())
+			.leIfPresent(Wallpaper::getLaunchTime, qo.getLaunchTimeEnd())
+			.geIfPresent(Wallpaper::getLaunchTime, qo.getLaunchTimeStart())
+			.eqIfPresent(Wallpaper::getType, qo.getType());
 
 		this.selectPage(page, wrapper);
 		IPage<WallpaperRestVO> voPage = page.convert(WallpaperConverter.INSTANCE::poToRestVo);

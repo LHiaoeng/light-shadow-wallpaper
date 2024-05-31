@@ -18,12 +18,13 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class BingUtil {
+
 	private static final String BING_API = "https://global.bing.com/HPImageArchive.aspx";
+
 	public static final String BING_URL = "https://bing.com";
 
 	/**
 	 * 获取必应壁纸API
-	 *
 	 * @param qo
 	 * @return
 	 */
@@ -37,7 +38,8 @@ public class BingUtil {
 		BingWallpaper bingWallpaper;
 		try {
 			bingWallpaper = JsonUtils.toObj(res, BingWallpaper.class);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error("调用必应壁纸API响应参数：{}", res);
 			log.error("必应壁纸API响应参数转实体异常：", e);
 			throw new RuntimeException("调用必应壁纸API异常。原因：" + res);
@@ -48,7 +50,6 @@ public class BingUtil {
 
 	/**
 	 * 提取输入字符串中最后一个括号内外的内容
-	 *
 	 * @param input
 	 * @return
 	 */
@@ -76,12 +77,11 @@ public class BingUtil {
 			outsideContent = outsideContent.trim();
 		}
 
-		return new String[]{outsideContent, insideContent};
+		return new String[] { outsideContent, insideContent };
 	}
 
 	/**
-	 *	替换URL中的参数
-	 *
+	 * 替换URL中的参数
 	 * @param url
 	 * @param replacements
 	 * @return
@@ -98,7 +98,6 @@ public class BingUtil {
 
 	/**
 	 * 获取Bing壁纸ID
-	 *
 	 * @param url
 	 * @return
 	 */
@@ -114,4 +113,5 @@ public class BingUtil {
 
 		return id;
 	}
+
 }

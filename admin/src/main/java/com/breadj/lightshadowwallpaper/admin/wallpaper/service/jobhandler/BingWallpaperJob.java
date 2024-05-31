@@ -18,4 +18,5 @@ public class BingWallpaperJob {
 	public void bingWallpaperJobHandler() throws Exception {
 		bingWallpaperService.getBingWallpaper();
 	}
+
 }

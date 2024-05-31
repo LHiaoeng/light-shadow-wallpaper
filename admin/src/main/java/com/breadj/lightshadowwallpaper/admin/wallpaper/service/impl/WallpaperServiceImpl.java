@@ -67,4 +67,5 @@ public class WallpaperServiceImpl extends ExtendServiceImpl<WallpaperMapper, Wal
 	public PageResult<WallpaperRestVO> queryRestPage(PageParam pageParam, WallpaperQO qo) {
 		return baseMapper.queryRestPage(pageParam, qo);
 	}
+
 }

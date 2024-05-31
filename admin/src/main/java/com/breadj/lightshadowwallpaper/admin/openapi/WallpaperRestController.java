@@ -1,9 +1,7 @@
 package com.breadj.lightshadowwallpaper.admin.openapi;
 
-import com.breadj.lightshadowwallpaper.admin.wallpaper.model.entity.Wallpaper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.qo.BingWallpaperQO;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.qo.WallpaperQO;
-import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperPageVO;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperRestVO;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.service.BingWallpaperService;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.service.WallpaperService;
@@ -26,11 +24,11 @@ import java.util.List;
 public class WallpaperRestController {
 
 	private final WallpaperService wallpaperService;
+
 	private final BingWallpaperService bingWallpaperService;
 
 	/**
 	 * web客户端分页查询数据库壁纸
-	 *
 	 * @param pageParam
 	 * @param wallpaperQO
 	 * @return
@@ -43,7 +41,6 @@ public class WallpaperRestController {
 
 	/**
 	 * 调用必应壁纸接口获取必应壁纸
-	 *
 	 * @param qo
 	 * @return
 	 */
@@ -52,4 +49,5 @@ public class WallpaperRestController {
 	public R<List<WallpaperRestVO>> getBingWallpapers(BingWallpaperQO qo) {
 		return R.ok(bingWallpaperService.getBingWallpaperByQO(qo));
 	}
+
 }

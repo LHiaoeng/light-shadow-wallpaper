@@ -7,6 +7,7 @@ import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperRestVO;
 import java.util.List;
 
 public interface BingWallpaperService {
+
 	/**
 	 * 获取必应壁纸
 	 */
@@ -14,8 +15,8 @@ public interface BingWallpaperService {
 
 	/**
 	 * 通过API获取今日Bing壁纸
-	 *
 	 * @return
 	 */
 	List<WallpaperRestVO> getBingWallpaperByQO(BingWallpaperQO qo);
+
 }

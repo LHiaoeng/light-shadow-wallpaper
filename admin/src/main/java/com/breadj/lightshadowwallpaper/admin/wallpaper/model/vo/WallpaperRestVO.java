@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @Schema(title = "壁纸分页视图对象")
 public class WallpaperRestVO {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -92,4 +93,5 @@ public class WallpaperRestVO {
 	 */
 	@Schema(title = "必应壁纸所属国家")
 	private String bingCountry;
+
 }

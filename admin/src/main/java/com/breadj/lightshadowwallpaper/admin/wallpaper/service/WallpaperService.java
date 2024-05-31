@@ -24,4 +24,5 @@ public interface WallpaperService extends ExtendService<Wallpaper> {
 	PageResult<WallpaperPageVO> queryPage(PageParam pageParam, WallpaperQO qo);
 
 	PageResult<WallpaperRestVO> queryRestPage(PageParam pageParam, WallpaperQO qo);
+
 }

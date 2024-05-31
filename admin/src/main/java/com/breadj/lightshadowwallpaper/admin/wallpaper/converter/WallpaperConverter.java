@@ -24,4 +24,5 @@ public interface WallpaperConverter {
 	WallpaperPageVO poToPageVo(Wallpaper wallpaper);
 
 	WallpaperRestVO poToRestVo(Wallpaper wallpaper);
+
 }

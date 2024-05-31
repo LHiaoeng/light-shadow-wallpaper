@@ -61,4 +61,5 @@ public class WallpaperQO {
 	 */
 	@Schema(title = "必应壁纸所属国家")
 	private String bingCountry;
+
 }

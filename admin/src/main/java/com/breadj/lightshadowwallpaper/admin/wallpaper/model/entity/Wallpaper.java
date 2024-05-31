@@ -43,6 +43,7 @@ public class Wallpaper {
 	 * 标题链接
 	 */
 	@Schema(title = "标题链接")
+	@TableField(updateStrategy = FieldStrategy.IGNORED)
 	private String titleLink;
 
 	/**
@@ -62,24 +63,28 @@ public class Wallpaper {
 	 * 预览海报
 	 */
 	@Schema(title = "预览海报")
+	@TableField(updateStrategy = FieldStrategy.IGNORED)
 	private String poster;
 
 	/**
 	 * 版权信息
 	 */
 	@Schema(title = "版权信息")
+	@TableField(updateStrategy = FieldStrategy.IGNORED)
 	private String copyright;
 
 	/**
 	 * 版权信息链接
 	 */
 	@Schema(title = "版权信息链接")
+	@TableField(updateStrategy = FieldStrategy.IGNORED)
 	private String copyrightLink;
 
 	/**
 	 * 壁纸描述
 	 */
 	@Schema(title = "壁纸描述")
+	@TableField(updateStrategy = FieldStrategy.IGNORED)
 	private String description;
 
 	/**
@@ -92,6 +97,7 @@ public class Wallpaper {
 	 * 必应壁纸所属国家
 	 */
 	@Schema(title = "必应壁纸所属国家")
+	@TableField(updateStrategy = FieldStrategy.IGNORED)
 	private String bingCountry;
 
 	/**

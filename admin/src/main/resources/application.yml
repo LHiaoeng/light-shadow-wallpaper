@@ -94,7 +94,7 @@ ballcat:
     job:
       access-token: default_token
       admin:
-        addresses: http://ballcat-job:8888/xxl-job-admin
+        addresses: http://127.0.0.1:8888/xxl-job-admin
       executor:
         appname: xxl-job-executor-breadj
 
