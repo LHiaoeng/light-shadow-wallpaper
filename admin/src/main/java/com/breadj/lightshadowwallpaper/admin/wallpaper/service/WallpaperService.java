@@ -3,6 +3,7 @@ package com.breadj.lightshadowwallpaper.admin.wallpaper.service;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.entity.Wallpaper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperPageVO;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.qo.WallpaperQO;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperRestVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
@@ -22,5 +23,5 @@ public interface WallpaperService extends ExtendService<Wallpaper> {
 	 */
 	PageResult<WallpaperPageVO> queryPage(PageParam pageParam, WallpaperQO qo);
 
-	PageResult<WallpaperPageVO> queryRestPage(PageParam pageParam, WallpaperQO qo);
+	PageResult<WallpaperRestVO> queryRestPage(PageParam pageParam, WallpaperQO qo);
 }

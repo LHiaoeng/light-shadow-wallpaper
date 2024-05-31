@@ -1,15 +1,20 @@
 package com.breadj.lightshadowwallpaper.admin.wallpaper.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.http.HttpUtil;
-import com.alibaba.fastjson.JSONArray;
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.converter.WallpaperConverter;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.enums.BingWallpaperRegionEnum;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.enums.ResolutionEnum;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.mapper.WallpaperMapper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.entity.BingWallpaper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.entity.Wallpaper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.qo.BingWallpaperQO;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperRestVO;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.service.BingWallpaperService;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.service.WallpaperService;
-import com.hccake.ballcat.common.util.JsonUtils;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.utils.BingUtil;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,140 +23,37 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class BingWallpaperServiceImpl implements BingWallpaperService {
+public class BingWallpaperServiceImpl extends ExtendServiceImpl<WallpaperMapper, Wallpaper> implements BingWallpaperService {
 
 	private final WallpaperService wallpaperService;
 
-	private static final String BING_API = "https://global.bing.com/HPImageArchive.aspx";
-	private static final String BING_URL = "https://bing.com";
-
-
 	/**
-	 * 获取必应壁纸
+	 * 调用API获取必应壁纸
+	 *
+	 * @return
 	 */
-	@Override
-	public void getBingWallpaper() {
-		Map<String, List<BingWallpaper.Images>> map = getBingWallpaperMap();
-
-		Map<String, String> replacements = new HashMap<>();
-		replacements.put("w=320", "w=3840");
-		replacements.put("h=180", "h=2160");
-
-		List<Wallpaper> wallpaperList = new ArrayList<>();
-
-		List<BingWallpaper.Images> chinaList = map.get(BingWallpaperRegionEnum.ZH_CN.getCode());
-
-		chinaList.forEach(image -> {
-			Wallpaper wallpaper = new Wallpaper();
-			String url = image.getUrl();
-			String uhdUrl = replaceUrlParameters(url, replacements);
-
-			wallpaper.setUrl(BING_URL + uhdUrl);
-			wallpaper.setPoster(BING_URL + url);
-			wallpaper.setUrlBase(image.getUrlbase());
-			wallpaper.setTitle(image.getTitle());
-			String copyright = image.getCopyright();
-			String[] content = extractContent(copyright);
-			wallpaper.setCopyright(content[1]);
-			wallpaper.setDescription(content[0]);
-			wallpaper.setCopyrightLink(image.getCopyrightlink());
-			wallpaper.setTitleLink(BING_URL + image.getQuiz());
-			wallpaper.setSource(2);
-			wallpaper.setType(1);
-			wallpaper.setBingCountry(BingWallpaperRegionEnum.getCountryByCode(BingWallpaperRegionEnum.ZH_CN.getCode()));
-			wallpaper.setStatus(0);
-			wallpaper.setCreateBy(1L);
-			wallpaper.setCreateTime(LocalDateTime.now());
-			wallpaper.setUpdateBy(1L);
-			wallpaper.setUpdateTime(LocalDateTime.now());
-
-			LocalDate localDate = LocalDate.parse(image.getStartdate(), DateTimeFormatter.BASIC_ISO_DATE);
-			wallpaper.setLaunchTime(localDate.atStartOfDay());
-			wallpaperList.add(wallpaper);
-		});
-
-		List<String> idCollect = wallpaperList.stream().map(wallpaper -> extractIdentifiers(wallpaper.getUrlBase())).collect(Collectors.toList());
-
-		map.forEach((countryCode, images) -> images.forEach(image -> {
-			if (Objects.equals(countryCode, BingWallpaperRegionEnum.ZH_CN.getCode())) {
-				return;
-			}
-
-			if (idCollect.contains(extractIdentifiers(image.getUrlbase()))) {
-				return;
-			}
-
-			Wallpaper wallpaper = new Wallpaper();
-			String url = image.getUrl();
-			String uhdUrl = replaceUrlParameters(url, replacements);
-
-			wallpaper.setUrl(BING_URL + uhdUrl);
-			wallpaper.setPoster(BING_URL + url);
-			wallpaper.setUrlBase(image.getUrlbase());
-			wallpaper.setTitle(image.getTitle());
-			String copyright = image.getCopyright();
-			String[] content = extractContent(copyright);
-			wallpaper.setCopyright(content[1]);
-			wallpaper.setDescription(content[0]);
-			wallpaper.setCopyrightLink(image.getCopyrightlink());
-			wallpaper.setTitleLink(BING_URL + image.getQuiz());
-			wallpaper.setSource(2);
-			wallpaper.setType(1);
-			wallpaper.setBingCountry(BingWallpaperRegionEnum.getCountryByCode(countryCode));
-			wallpaper.setStatus(0);
-			wallpaper.setCreateBy(1L);
-			wallpaper.setCreateTime(LocalDateTime.now());
-			wallpaper.setUpdateBy(1L);
-			wallpaper.setUpdateTime(LocalDateTime.now());
-
-			LocalDate localDate = LocalDate.parse(image.getStartdate(), DateTimeFormatter.BASIC_ISO_DATE);
-			wallpaper.setLaunchTime(localDate.atStartOfDay());
-			wallpaperList.add(wallpaper);
-		}));
-
-		List<Wallpaper> values = new ArrayList<>(wallpaperList.stream()
-				.collect(Collectors.toMap(
-						wallpaper -> extractIdentifiers(wallpaper.getUrlBase()),
-						wallpaper -> wallpaper,
-						(existing, replacement) -> existing
-				))
-				.values());
-
-		//按launchTime从大到小排序
-		values.sort(Comparator.comparing(Wallpaper::getLaunchTime).reversed());
-
-		log.info("wallpaperList:{}", JSONArray.toJSONString(values));
-
-		wallpaperService.saveBatch(values);
-	}
-
 	private static Map<String, List<BingWallpaper.Images>> getBingWallpaperMap() {
 		BingWallpaperQO qo = new BingWallpaperQO();
+		qo.setUhdwidth(ResolutionEnum.PreviewSize.getWidth());
+		qo.setUhdheight(ResolutionEnum.PreviewSize.getHeight());
 
 		List<String> allCountryCodeList = BingWallpaperRegionEnum.getAllCodeList();
-
-		Integer[] idxArr = new Integer[]{0, 8};
+		Integer[] idxArr = {0, 8};
 
 		Map<String, List<BingWallpaper.Images>> map = new HashMap<>();
 
 		allCountryCodeList.forEach(countryCode -> {
 			qo.setMkt(countryCode);
-			log.info("countryCode:{}", countryCode);
-
 			List<BingWallpaper.Images> imageList = new ArrayList<>();
 
-			for (Integer integer : idxArr) {
-				qo.setIdx(integer);
-				String res = HttpUtil.get(BING_API, BeanUtil.beanToMap(qo));
-
-				BingWallpaper bingWallpaper = JsonUtils.toObj(res, BingWallpaper.class);
+			for (Integer idx : idxArr) {
+				qo.setIdx(idx);
+				BingWallpaper bingWallpaper = BingUtil.fetchBingWallpaperAPI(qo);
 				imageList.addAll(bingWallpaper.getImages());
 			}
 
@@ -165,41 +67,192 @@ public class BingWallpaperServiceImpl implements BingWallpaperService {
 
 			map.put(countryCode, values);
 		});
+
 		return map;
 	}
 
-	public static String[] extractContent(String input) {
-		String outsideContent = input.replaceAll("\\s*\\(.*?\\)", "").trim();
-		String insideContent = "";
+	/**
+	 * 获取必应壁纸
+	 */
+	@Override
+	public void getBingWallpaper() {
+		Map<String, List<BingWallpaper.Images>> map = getBingWallpaperMap();
 
-		Pattern pattern = Pattern.compile("\\((.*?)\\)");
-		Matcher matcher = pattern.matcher(input);
+		Map<String, String> replacements = new HashMap<>();
+		replacements.put("w=" + ResolutionEnum.PreviewSize.getWidth(), "w=" + ResolutionEnum._4K.getWidth());
+		replacements.put("h=" + ResolutionEnum.PreviewSize.getHeight(), "h=" + ResolutionEnum._4K.getHeight());
 
-		if (matcher.find()) {
-			insideContent = matcher.group(1);
-		}
+		List<Wallpaper> wallpaperList = createWallpaperList(map, replacements);
 
-		return new String[] { outsideContent, insideContent };
+		//获取中国壁纸ID集合
+		List<String> idCollect = wallpaperList.stream()
+				.map(wallpaper -> BingUtil.extractIdentifiers(wallpaper.getUrlBase()))
+				.collect(Collectors.toList());
+
+		addNonChineseWallpapers(map, replacements, wallpaperList, idCollect);
+
+		//去掉跟中国重复的壁纸
+		List<Wallpaper> uniqueWallpapers = removeDuplicateWallpapers(wallpaperList);
+
+		//根据上架时间倒序排序
+		uniqueWallpapers.sort(Comparator.comparing(Wallpaper::getLaunchTime).reversed());
+
+		//保存
+		saveIfNotExistBingWallpaper(uniqueWallpapers);
 	}
 
-	public static String replaceUrlParameters(String url, Map<String, String> replacements) {
-		for (Map.Entry<String, String> entry : replacements.entrySet()) {
-			url = url.replace(entry.getKey(), entry.getValue());
-		}
-		return url;
+	/**
+	 * 先获取中国的壁纸
+	 *
+	 * @param map
+	 * @param replacements
+	 * @return
+	 */
+	private List<Wallpaper> createWallpaperList(Map<String, List<BingWallpaper.Images>> map, Map<String, String> replacements) {
+		List<Wallpaper> wallpaperList = new ArrayList<>();
+
+		map.get(BingWallpaperRegionEnum.ZH_CN.getCode()).forEach(image -> {
+			wallpaperList.add(createWallpaper(image, replacements, BingWallpaperRegionEnum.ZH_CN.getCode()));
+		});
+
+		return wallpaperList;
 	}
 
-	public static String extractIdentifiers(String url) {
-		String regex = "/th\\?id=(OHR\\.[^_]+)";
-		Pattern pattern = Pattern.compile(regex);
-		String id = "";
+	/**
+	 * 添加非中国的壁纸
+	 *
+	 * @param map
+	 * @param replacements
+	 * @param wallpaperList
+	 * @param idCollect
+	 */
+	private void addNonChineseWallpapers(Map<String, List<BingWallpaper.Images>> map, Map<String, String> replacements, List<Wallpaper> wallpaperList, List<String> idCollect) {
+		map.forEach((countryCode, images) -> {
+			if (Objects.equals(countryCode, BingWallpaperRegionEnum.ZH_CN.getCode())) {
+				return;
+			}
 
-		Matcher matcher = pattern.matcher(url);
-		if (matcher.find()) {
-			id = matcher.group(1);
-		}
-
-		return id;
+			images.forEach(image -> {
+				if (!idCollect.contains(BingUtil.extractIdentifiers(image.getUrlbase()))) {
+					wallpaperList.add(createWallpaper(image, replacements, countryCode));
+				}
+			});
+		});
 	}
 
+	/**
+	 * Bing壁纸转换实体
+	 *
+	 * @param image
+	 * @param replacements
+	 * @param countryCode
+	 * @return
+	 */
+	private Wallpaper createWallpaper(BingWallpaper.Images image, Map<String, String> replacements, String countryCode) {
+		Wallpaper wallpaper = new Wallpaper();
+		String url = image.getUrl();
+		String uhdUrl = BingUtil.replaceUrlParameters(url, replacements);
+
+		wallpaper.setUrl(BingUtil.BING_URL + uhdUrl);
+		wallpaper.setPoster(BingUtil.BING_URL + url);
+		wallpaper.setUrlBase(image.getUrlbase());
+		wallpaper.setTitle(image.getTitle());
+		String[] content = BingUtil.extractContent(image.getCopyright());
+		wallpaper.setCopyright(content[1]);
+		wallpaper.setDescription(content[0]);
+		wallpaper.setCopyrightLink(image.getCopyrightlink());
+		wallpaper.setTitleLink(BingUtil.BING_URL + image.getQuiz());
+		wallpaper.setSource(2);
+		wallpaper.setType(1);
+		wallpaper.setBingCountry(BingWallpaperRegionEnum.getCountryByCode(countryCode));
+		wallpaper.setStatus(0);
+		wallpaper.setCreateBy(1L);
+		wallpaper.setCreateTime(LocalDateTime.now());
+		wallpaper.setUpdateBy(1L);
+		wallpaper.setUpdateTime(LocalDateTime.now());
+
+		LocalDate localDate = LocalDate.parse(image.getStartdate(), DateTimeFormatter.BASIC_ISO_DATE);
+		wallpaper.setLaunchTime(localDate.atStartOfDay());
+
+		return wallpaper;
+	}
+
+	/**
+	 * 去掉重复的壁纸
+	 *
+	 * @param wallpaperList
+	 * @return
+	 */
+	private List<Wallpaper> removeDuplicateWallpapers(List<Wallpaper> wallpaperList) {
+		return new ArrayList<>(wallpaperList.stream()
+				.collect(Collectors.toMap(
+						wallpaper -> BingUtil.extractIdentifiers(wallpaper.getUrlBase()),
+						wallpaper -> wallpaper,
+						(existing, replacement) -> existing
+				))
+				.values());
+	}
+
+	/**
+	 * 保存必应壁纸
+	 *
+	 * @param wallpapers
+	 */
+	public void saveIfNotExistBingWallpaper(List<Wallpaper> wallpapers) {
+		Set<String> urlBases = wallpapers.stream().map(Wallpaper::getUrlBase).collect(Collectors.toSet());
+
+		LambdaQueryWrapper<Wallpaper> queryWrapper = Wrappers.lambdaQuery(Wallpaper.class);
+		queryWrapper.select(Wallpaper::getUrlBase).in(Wallpaper::getUrlBase, urlBases);
+		//查询launchTime近十五天的数据
+//		queryWrapper.and(wrapper -> wrapper.lt(Wallpaper::getLaunchTime, LocalDateTime.now().minusDays(15)));
+		queryWrapper.eq(Wallpaper::getSource, 2);
+		List<Wallpaper> existingWallpapers = baseMapper.selectList(queryWrapper);
+		Set<String> existingUrlBases = existingWallpapers.stream().map(Wallpaper::getUrlBase).collect(Collectors.toSet());
+
+		List<Wallpaper> newWallpapers = wallpapers.stream()
+				.filter(wallpaper -> !existingUrlBases.contains(wallpaper.getUrlBase()))
+				.collect(Collectors.toList());
+
+		if (!newWallpapers.isEmpty()) {
+			wallpaperService.saveBatch(newWallpapers);
+		}
+	}
+
+	/**
+	 * 通过API获取今日Bing壁纸
+	 *
+	 * @return
+	 */
+	@Override
+	public List<WallpaperRestVO> getBingWallpaperByQO(BingWallpaperQO qo) {
+		if (null == qo) {
+			qo = new BingWallpaperQO();
+			qo.setIdx(0);
+			qo.setN(1);
+			qo.setUhd(1);
+		}
+
+		if (null == qo.getUhdwidth()) {
+			qo.setUhdwidth(ResolutionEnum._4K.getWidth());
+		}
+		if (null == qo.getUhdheight()) {
+			qo.setUhdheight(ResolutionEnum._4K.getHeight());
+		}
+
+		BingWallpaper bingWallpaper = BingUtil.fetchBingWallpaperAPI(qo);
+
+		if (null == bingWallpaper || CollectionUtil.isEmpty(bingWallpaper.getImages())) {
+			return Collections.emptyList();
+		}
+
+		List<Wallpaper> wallpaperList = new ArrayList<>();
+		BingWallpaperQO finalQo = qo;
+
+		bingWallpaper.getImages().forEach(image -> {
+			Wallpaper wallpaper = createWallpaper(image, null, finalQo.getMkt());
+			wallpaperList.add(wallpaper);
+		});
+
+		return wallpaperList.stream().map(WallpaperConverter.INSTANCE::poToRestVo).collect(Collectors.toList());
+	}
 }

@@ -1,6 +1,7 @@
 package com.breadj.lightshadowwallpaper.admin.wallpaper.service.impl;
 
 import com.breadj.lightshadowwallpaper.admin.wallpaper.mapper.WallpaperMapper;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperRestVO;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.service.WallpaperService;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.entity.Wallpaper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperPageVO;
@@ -63,7 +64,7 @@ public class WallpaperServiceImpl extends ExtendServiceImpl<WallpaperMapper, Wal
 	}
 
 	@Override
-	public PageResult<WallpaperPageVO> queryRestPage(PageParam pageParam, WallpaperQO qo) {
+	public PageResult<WallpaperRestVO> queryRestPage(PageParam pageParam, WallpaperQO qo) {
 		return baseMapper.queryRestPage(pageParam, qo);
 	}
 }

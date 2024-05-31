@@ -2,6 +2,7 @@ package com.breadj.lightshadowwallpaper.admin.wallpaper.converter;
 
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.entity.Wallpaper;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperPageVO;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperRestVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -22,4 +23,5 @@ public interface WallpaperConverter {
 	 */
 	WallpaperPageVO poToPageVo(Wallpaper wallpaper);
 
+	WallpaperRestVO poToRestVo(Wallpaper wallpaper);
 }

@@ -47,10 +47,18 @@ public class WallpaperQO {
 	/**
 	 * 上架时间起
 	 */
+	@Schema(description = "上架时间起")
 	private LocalDateTime launchTimeStart;
 
 	/**
 	 * 上架时间止
 	 */
+	@Schema(description = "上架时间止")
 	private LocalDateTime launchTimeEnd;
+
+	/**
+	 * 必应壁纸所属国家
+	 */
+	@Schema(title = "必应壁纸所属国家")
+	private String bingCountry;
 }

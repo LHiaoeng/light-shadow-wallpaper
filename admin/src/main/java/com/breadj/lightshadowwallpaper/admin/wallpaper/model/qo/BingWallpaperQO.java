@@ -44,18 +44,18 @@ public class BingWallpaperQO {
 	 * 超高清图片宽度
 	 */
 	@Parameter(description = "超高清图片宽度")
-	private Integer uhdwidth = 320;
+	private Integer uhdwidth;
 
 	/**
 	 * 超高清图片高度
 	 */
 	@Parameter(description = "超高清图片高度")
-	private Integer uhdheight = 180;
+	private Integer uhdheight;
 
 	/**
 	 * 地区（非必需）
 	 * @see BingWallpaperRegionEnum
 	 */
 	@Parameter(description = "地区(非必需)")
-	private String mkt;
+	private String mkt = BingWallpaperRegionEnum.ZH_CN.getCode();
 }

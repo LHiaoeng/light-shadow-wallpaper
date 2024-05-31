@@ -1,21 +1,18 @@
 package com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo;
 
-import com.hccake.ballcat.system.model.entity.SysUser;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 /**
- * 壁纸分页视图对象
- *
- * @author liaoheng 2024-05-25 14:56:24
+ * @author liaoheng
+ * @version 1.0
+ * @date 2024/5/31 18:36
  */
 @Data
 @Schema(title = "壁纸分页视图对象")
-public class WallpaperPageVO {
-
+public class WallpaperRestVO {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -85,57 +82,14 @@ public class WallpaperPageVO {
 	private Integer source;
 
 	/**
-	 * 必应壁纸所属国家
-	 */
-	@Schema(title = "必应壁纸所属国家")
-	private String bingCountry;
-
-	/**
 	 * 上架时间
 	 */
 	@Schema(title = "上架时间")
 	private LocalDateTime launchTime;
 
 	/**
-	 * 壁纸状态(0-启用,1-停用)
+	 * 必应壁纸所属国家
 	 */
-	@Schema(title = "壁纸状态(0-启用,1-停用)")
-	private Integer status;
-
-	/**
-	 * 创建时间
-	 */
-	@Schema(title = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 创建人
-	 */
-	@Schema(title = "创建人")
-	private Long createBy;
-
-	/**
-	 * 修改人
-	 */
-	@Schema(title = "修改人")
-	private Long updateBy;
-
-	/**
-	 * 修改时间
-	 */
-	@Schema(title = "修改时间")
-	private LocalDateTime updateTime;
-
-	/**
-	 * 创建人对象
-	 */
-	@Schema(title = "创建人对象")
-	private SysUser creator;
-
-	/**
-	 * 更新人对象
-	 */
-	@Schema(title = "更新人对象")
-	private SysUser updater;
-
+	@Schema(title = "必应壁纸所属国家")
+	private String bingCountry;
 }
