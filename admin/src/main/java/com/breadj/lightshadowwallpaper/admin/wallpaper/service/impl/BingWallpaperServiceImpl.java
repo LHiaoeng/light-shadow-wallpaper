@@ -13,7 +13,7 @@ import com.breadj.lightshadowwallpaper.admin.wallpaper.model.qo.BingWallpaperQO;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.model.vo.WallpaperRestVO;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.service.BingWallpaperService;
 import com.breadj.lightshadowwallpaper.admin.wallpaper.service.WallpaperService;
-import com.breadj.lightshadowwallpaper.admin.wallpaper.utils.BingUtil;
+import com.breadj.lightshadowwallpaper.admin.wallpaper.util.BingUtil;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.breadj.lightshadowwallpaper.admin.wallpaper.utils;
+package com.breadj.lightshadowwallpaper.admin.wallpaper.util;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpUtil;
