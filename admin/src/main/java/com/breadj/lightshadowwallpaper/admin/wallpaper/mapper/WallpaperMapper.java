@@ -30,10 +30,23 @@ public interface WallpaperMapper extends ExtendMapper<Wallpaper> {
 		LambdaQueryWrapperX<Wallpaper> wrapper = WrappersX.lambdaQueryX(Wallpaper.class);
 
 		wrapper.orderByDesc(Wallpaper::getId)
+			.leIfPresent(Wallpaper::getLaunchTime, qo.getLaunchTimeEnd())
+			.geIfPresent(Wallpaper::getLaunchTime, qo.getLaunchTimeStart())
 			.likeIfPresent(Wallpaper::getTitle, qo.getTitle())
 			.eqIfPresent(Wallpaper::getSource, qo.getSource())
 			.eqIfPresent(Wallpaper::getStatus, qo.getStatus())
 			.eqIfPresent(Wallpaper::getType, qo.getType());
+
+		if (qo.getHasMainUrl() != null) {
+			if (qo.getHasMainUrl() == 1) {
+				// 字段不为空且不为 null
+				wrapper.isNotNull(Wallpaper::getUrl).ne(Wallpaper::getUrl, "");
+			}
+			else if (qo.getHasMainUrl() == 0) {
+				// 字段为空或为 null
+				wrapper.and(w -> w.isNull(Wallpaper::getUrl).or().eq(Wallpaper::getUrl, ""));
+			}
+		}
 
 		this.selectPage(page, wrapper);
 		IPage<WallpaperPageVO> voPage = page.convert(WallpaperConverter.INSTANCE::poToPageVo);
@@ -50,6 +63,9 @@ public interface WallpaperMapper extends ExtendMapper<Wallpaper> {
 			.eqIfPresent(Wallpaper::getBingCountry, qo.getBingCountry())
 			.leIfPresent(Wallpaper::getLaunchTime, qo.getLaunchTimeEnd())
 			.geIfPresent(Wallpaper::getLaunchTime, qo.getLaunchTimeStart())
+			// 过滤掉没有图片的
+			.isNotNull(Wallpaper::getUrl)
+			.ne(Wallpaper::getUrl, "")
 			.eqIfPresent(Wallpaper::getType, qo.getType());
 
 		this.selectPage(page, wrapper);

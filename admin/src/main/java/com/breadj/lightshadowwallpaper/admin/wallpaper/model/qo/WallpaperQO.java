@@ -5,7 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Data;
 import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -48,18 +50,26 @@ public class WallpaperQO {
 	 * 上架时间起
 	 */
 	@Schema(description = "上架时间起")
-	private LocalDateTime launchTimeStart;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate launchTimeStart;
 
 	/**
 	 * 上架时间止
 	 */
 	@Schema(description = "上架时间止")
-	private LocalDateTime launchTimeEnd;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate launchTimeEnd;
 
 	/**
 	 * 必应壁纸所属国家
 	 */
 	@Schema(title = "必应壁纸所属国家")
 	private String bingCountry;
+
+	/**
+	 * 是否有壁纸网址
+	 */
+	@Schema(title = "是否有壁纸网址（0：否；1：是）")
+	private Integer hasMainUrl;
 
 }
