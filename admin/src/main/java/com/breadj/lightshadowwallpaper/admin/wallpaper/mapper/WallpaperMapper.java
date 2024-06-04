@@ -35,6 +35,7 @@ public interface WallpaperMapper extends ExtendMapper<Wallpaper> {
 			.likeIfPresent(Wallpaper::getTitle, qo.getTitle())
 			.eqIfPresent(Wallpaper::getSource, qo.getSource())
 			.eqIfPresent(Wallpaper::getStatus, qo.getStatus())
+			.likeIfPresent(Wallpaper::getUrlBase, qo.getUrlBase())
 			.eqIfPresent(Wallpaper::getType, qo.getType());
 
 		if (qo.getHasMainUrl() != null) {
@@ -67,6 +68,9 @@ public interface WallpaperMapper extends ExtendMapper<Wallpaper> {
 			.isNotNull(Wallpaper::getUrl)
 			.ne(Wallpaper::getUrl, "")
 			.eqIfPresent(Wallpaper::getType, qo.getType());
+
+		// 先按创建时间倒序排序，再按上架时间倒序排序
+		wrapper.orderByDesc(Wallpaper::getId).orderByDesc(Wallpaper::getLaunchTime);
 
 		this.selectPage(page, wrapper);
 		IPage<WallpaperRestVO> voPage = page.convert(WallpaperConverter.INSTANCE::poToRestVo);

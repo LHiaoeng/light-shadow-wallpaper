@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/wallpaper")
+@RequestMapping("/rest/wallpaper")
 @Tag(name = "web客户端壁纸API")
 public class WallpaperRestController {
 

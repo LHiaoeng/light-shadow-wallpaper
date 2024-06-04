@@ -43,14 +43,15 @@ public class WallpaperServiceImpl extends ExtendServiceImpl<WallpaperMapper, Wal
 		PageResult<WallpaperPageVO> wallpaperPage = baseMapper.queryPage(pageParam, qo);
 		List<WallpaperPageVO> records = wallpaperPage.getRecords().stream().peek(vo -> {
 
-			LambdaQueryWrapperX<SysUser> sysUserWrapper = WrappersX.lambdaQueryX(SysUser.class);
 			if (null != vo.getCreateBy()) {
+				LambdaQueryWrapperX<SysUser> sysUserWrapper = WrappersX.lambdaQueryX(SysUser.class);
 				sysUserWrapper.eq(SysUser::getUserId, vo.getCreateBy());
 				SysUser creator = sysUserMapper.selectOne(sysUserWrapper);
 				vo.setCreator(creator);
 			}
 
 			if (null != vo.getUpdateBy()) {
+				LambdaQueryWrapperX<SysUser> sysUserWrapper = WrappersX.lambdaQueryX(SysUser.class);
 				sysUserWrapper.eq(SysUser::getUserId, vo.getUpdateBy());
 				SysUser updater = sysUserMapper.selectOne(sysUserWrapper);
 				vo.setUpdater(updater);

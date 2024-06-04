@@ -72,4 +72,10 @@ public class WallpaperQO {
 	@Schema(title = "是否有壁纸网址（0：否；1：是）")
 	private Integer hasMainUrl;
 
+	/**
+	 * 必应壁纸ID
+	 */
+	@Schema(title = "必应壁纸ID")
+	private String UrlBase;
+
 }

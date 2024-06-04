@@ -54,7 +54,7 @@ ballcat:
           - /bycdao-ui/**
           - /favicon.ico
           - /captcha/**
-          - /api/**
+          - /rest/**
   # 项目 redis 缓存的 key 前缀
   redis:
     key-prefix: 'ballcat:'
