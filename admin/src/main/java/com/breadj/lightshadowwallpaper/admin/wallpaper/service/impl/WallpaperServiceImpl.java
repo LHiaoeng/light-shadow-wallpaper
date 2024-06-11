@@ -69,4 +69,25 @@ public class WallpaperServiceImpl extends ExtendServiceImpl<WallpaperMapper, Wal
 		return baseMapper.queryRestPage(pageParam, qo);
 	}
 
+	/**
+	 * 根据id复制壁纸
+	 * @param id 需要复制的壁纸ID
+	 * @return
+	 */
+	@Override
+	public boolean copyWallpaperById(Long id) {
+		Wallpaper wallpaper = getById(id);
+		if (null == wallpaper) {
+			throw new RuntimeException("壁纸不存在");
+		}
+
+		wallpaper.setId(null);
+		wallpaper.setCreateTime(null);
+		wallpaper.setCreateBy(null);
+		wallpaper.setUpdateBy(null);
+		wallpaper.setUpdateTime(null);
+
+		return save(wallpaper);
+	}
+
 }

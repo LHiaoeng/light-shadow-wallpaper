@@ -25,4 +25,11 @@ public interface WallpaperService extends ExtendService<Wallpaper> {
 
 	PageResult<WallpaperRestVO> queryRestPage(PageParam pageParam, WallpaperQO qo);
 
+	/**
+	 * 根据id复制壁纸
+	 * @param id 需要复制的壁纸ID
+	 * @return
+	 */
+	boolean copyWallpaperById(Long id);
+
 }

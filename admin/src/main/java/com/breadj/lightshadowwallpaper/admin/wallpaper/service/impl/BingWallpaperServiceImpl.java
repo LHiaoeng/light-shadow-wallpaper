@@ -81,6 +81,9 @@ public class BingWallpaperServiceImpl extends ExtendServiceImpl<WallpaperMapper,
 
 		List<Wallpaper> wallpaperList = createWallpaperList(map, replacements);
 
+		// 国内壁纸去重
+		wallpaperList = removeDuplicateWallpapers(wallpaperList);
+
 		// 获取中国壁纸ID集合
 		List<String> idCollect = wallpaperList.stream()
 			.map(wallpaper -> BingUtil.extractIdentifiers(wallpaper.getUrlBase()))
@@ -190,14 +193,35 @@ public class BingWallpaperServiceImpl extends ExtendServiceImpl<WallpaperMapper,
 			.values());
 	}
 
-	/**
-	 * 保存必应壁纸
-	 * @param wallpapers 国内壁纸
-	 * @param foreignWallpapers 国外壁纸
-	 */
-	public void saveIfNotExistBingWallpaper(List<Wallpaper> wallpapers, List<Wallpaper> foreignWallpapers) {
-		// 获取国外壁纸的id
-		Set<String> urlBases = foreignWallpapers.stream()
+	private List<Wallpaper> getNewWallpapers(List<Wallpaper> wallpapers) {
+		// 获取壁纸的id
+		Set<String> urlBases = wallpapers.stream()
+			.map(wallpaper -> BingUtil.extractIdentifiers(wallpaper.getUrlBase()))
+			.collect(Collectors.toSet());
+
+		LambdaQueryWrapper<Wallpaper> queryWrapper = Wrappers.lambdaQuery(Wallpaper.class);
+		queryWrapper.select(Wallpaper::getUrlBase);
+		queryWrapper.eq(Wallpaper::getSource, 2);
+		queryWrapper.eq(Wallpaper::getBingCountry, "中国");
+		queryWrapper.and(wrapper -> {
+			for (String urlBase : urlBases) {
+				wrapper.or().like(Wallpaper::getUrlBase, urlBase);
+			}
+		});
+
+		List<Wallpaper> existingWallpapers = baseMapper.selectList(queryWrapper);
+		Set<String> existingUrlBases = existingWallpapers.stream()
+			.map(wallpaper -> BingUtil.extractIdentifiers(wallpaper.getUrlBase()))
+			.collect(Collectors.toSet());
+
+		return wallpapers.stream()
+			.filter(wallpaper -> !existingUrlBases.contains(BingUtil.extractIdentifiers(wallpaper.getUrlBase())))
+			.collect(Collectors.toList());
+	}
+
+	private List<Wallpaper> getNewForeignWallpapers(List<Wallpaper> wallpapers) {
+		// 获取壁纸的id
+		Set<String> urlBases = wallpapers.stream()
 			.map(wallpaper -> BingUtil.extractIdentifiers(wallpaper.getUrlBase()))
 			.collect(Collectors.toSet());
 
@@ -215,11 +239,21 @@ public class BingWallpaperServiceImpl extends ExtendServiceImpl<WallpaperMapper,
 			.map(wallpaper -> BingUtil.extractIdentifiers(wallpaper.getUrlBase()))
 			.collect(Collectors.toSet());
 
-		List<Wallpaper> newWallpapers = foreignWallpapers.stream()
+		return wallpapers.stream()
 			.filter(wallpaper -> !existingUrlBases.contains(BingUtil.extractIdentifiers(wallpaper.getUrlBase())))
 			.collect(Collectors.toList());
+	}
 
-		wallpapers.addAll(newWallpapers);
+	/**
+	 * 保存必应壁纸
+	 * @param wallpapers 国内壁纸
+	 * @param foreignWallpapers 国外壁纸
+	 */
+	public void saveIfNotExistBingWallpaper(List<Wallpaper> wallpapers, List<Wallpaper> foreignWallpapers) {
+		wallpapers = getNewWallpapers(wallpapers);
+		foreignWallpapers = getNewForeignWallpapers(foreignWallpapers);
+
+		wallpapers.addAll(foreignWallpapers);
 
 		if (!wallpapers.isEmpty()) {
 			// 根据上架时间升序排序

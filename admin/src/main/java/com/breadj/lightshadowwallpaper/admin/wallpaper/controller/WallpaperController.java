@@ -90,4 +90,13 @@ public class WallpaperController {
 		return wallpaperService.removeById(id) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除壁纸失败");
 	}
 
+	@Operation(summary = "通过id复制壁纸")
+	@CreateOperationLogging(msg = "复制壁纸")
+	@PostMapping("/copy/{id}")
+	@PreAuthorize("@per.hasPermission('wallpaper:wallpaper:copy')")
+	public R<Void> copyWallpaperById(@PathVariable("id") Long id) {
+		return wallpaperService.copyWallpaperById(id) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id复制壁纸失败");
+	}
+
 }
