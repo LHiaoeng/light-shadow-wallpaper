@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breadj.lightshadowwallpaper.admin.lol.skinline.mapper.SkinlineMapper">
+
+	<resultMap id="skinlineMap" type="com.breadj.lightshadowwallpaper.admin.lol.skinline.model.entity.Skinline">
+  		<id property="id" column="id"/>
+    		<result property="riotSkinlineId" column="riot_skinline_id"/>
+    		<result property="name" column="name"/>
+    		<result property="description" column="description"/>
+    		<result property="engName" column="eng_name"/>
+    		<result property="engDescription" column="eng_description"/>
+      </resultMap>
+
+	<sql id="Base_Column_List">
+		id,        
+		riot_skinline_id,        
+		name,        
+		description,        
+		eng_name,        
+		eng_description        
+	</sql>
+
+	<sql id="Base_Alias_Column_List">
+		s.id,        
+		s.riot_skinline_id,        
+		s.name,        
+		s.description,        
+		s.eng_name,        
+		s.eng_description        
+	</sql>
+</mapper>
